@@ -8,10 +8,12 @@ export default {
     extend: {
       colors: {
         "background": "var(--background)",
-        "backgroundNav": "var(--backgroundNav)",
         "foreground": "var(--foreground)",
-        "foregroundNav": "var(--foregroundNav)",
+        "foreground2": "var(--foreground2)",
         "border": "var(--border)",
+        "secondary": "var(--secondary)",
+        "accent": "var(--accent)",
+        "background2": "var(--background2)"
       },
     },
   },

@@ -3,9 +3,13 @@
 @tailwind utilities;
 
 :root {
-  --background: #f8fafc;
-  --backgroundNav: #f0f6fa;
-  --foreground: #1d293d;
-  --foregroundNav: #171717;
-  --border: #cfd9e1;
+    --background: #040607;
+    --foreground: #ebe9fc;
+    --border: #364153;
+    --secondary: #2e7191;
+    --accent: #7ab4d1;
+    --foreground2: #99a1af;
+    --background2: #1e293980;
+
+    background-color: var(--background);
 }
