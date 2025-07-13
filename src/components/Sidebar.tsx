@@ -10,61 +10,52 @@ interface SidebarProps {
 export const Sidebar: FC<SidebarProps> = ({ currentPage, setCurrentPage }) => {
     const navigate = useNavigate();
 
-    return(
-        <div className="h-screen w-[18rem] bg-background flex flex-col flex-shrink-0">
-            <div className="h-[5rem] border-b-2 border-r-2 border-border flex justify-center items-center gap-3">
+    const navItems = [
+        { label: "Notes", icon: <FileText />, key: "notes", shortcut: "1" },
+        { label: "Flashcards", icon: <Brain />, key: "flashcards", shortcut: "2" },
+        { label: "Paramètres", icon: <Settings />, key: "settings", shortcut: "3" },
+    ];
+
+    const activeIndex = navItems.findIndex(item => item.key === currentPage);
+
+    return (
+        <div className="h-screen w-[18rem] gap-3 bg-background flex flex-col flex-shrink-0 border-r-2 border-border">
+            <div className="h-[5rem] border-b-2 border-border flex justify-center items-center gap-3">
                 <div className="w-[2.5rem] h-[2.5rem] rounded-xl bg-accent flex justify-center items-center">
                     <GraduationCap color="black" size={30} />
                 </div>
                 <h1 className="text-foreground text-xl font-bold">StudyFlow</h1>
             </div>
 
-            <div className="h-full border-r-2 border-border">
-                <nav className="z-50 text-background gap-5 flex flex-col h-full flex items-center">
-                    <button className={`w-[15rem] p-2 mt-5 rounded-xl ${currentPage === "notes" ? "bg-accent" : "hover:bg-background2 hover:scale-105 transition-all"}`} onClick={() => (navigate('/pages/notes'), setCurrentPage('notes'))}>
-                        <div className="flex flex-row w-full items-center gap-3 ml-2 justify-between">
-                            <div className={`flex flex-row items-center gap-3 ${currentPage !== "notes" ? "text-foreground2" : ""}`}>
-                                <FileText />
-                                <span className="text-lg">Notes</span>
-                            </div>
-                            
-                            <div className={`w-14 h-9 mr-2 gap-1 ${currentPage !== "notes" ? "bg-[#1e2939]" : "bg-secondary"} flex flex-row justify-center items-center rounded-md text-foreground`}>
-                                <Command size={18} />
-                                <span>1</span>
-                            </div>
+            <nav className="relative flex flex-col items-center mt-0 gap-2 flex-1">
+                <div
+                    className="absolute w-[15rem] h-[4.5rem] bg-accent rounded-xl transition-all duration-300 ease-in-out"
+                    style={{ top: `${activeIndex * 5}rem` }}
+                />
+
+                {navItems.map((item) => (
+                    <button
+                        key={item.key}
+                        className={`relative z-10 w-[15rem] h-[4.5rem] px-4 rounded-xl transition-all flex items-center justify-between ${
+                            currentPage !== item.key ? "hover:bg-background2 hover:scale-105" : ""
+                        }`}
+                        onClick={() => {
+                            navigate(`/pages/${item.key}`);
+                            setCurrentPage(item.key);
+                        }}
+                    >
+                        <div className={`flex items-center gap-3 ${currentPage !== item.key ? "text-foreground2" : "text-foreground"}`}>
+                            {item.icon}
+                            <span className="text-lg">{item.label}</span>
+                        </div>
+
+                        <div className={`w-14 h-9 gap-1 ${currentPage !== item.key ? "bg-[#1e2939]" : "bg-secondary"} flex justify-center items-center rounded-md text-foreground`}>
+                            <Command size={18} />
+                            <span>{item.shortcut}</span>
                         </div>
                     </button>
-
-
-                    <button className={`w-[15rem] p-2 rounded-xl ${currentPage === "flashcards" ? "bg-accent" : "hover:bg-background2 hover:scale-105 transition-all"}`} onClick={() => (navigate('/pages/flashcards'), setCurrentPage('flashcards'))}>
-                        <div className="flex flex-row w-full items-center gap-3 ml-2 justify-between">
-                            <div className={`flex flex-row items-center gap-3 ${currentPage !== "flashcards" ? "text-foreground2" : ""}`}>
-                                <Brain />
-                                <span className="text-lg">Flashcards</span>
-                            </div>
-                            
-                            <div className={`w-14 h-9 mr-2 gap-1 ${currentPage !== "flashcards" ? "bg-[#1e2939]" : "bg-secondary"} flex flex-row justify-center items-center rounded-md text-foreground`}>
-                                <Command size={18} />
-                                <span>2</span>
-                            </div>
-                        </div>
-                    </button>
-
-                    <button className={`w-[15rem] p-2 rounded-xl ${currentPage === "settings" ? "bg-accent" : "hover:bg-background2 hover:scale-105 transition-all"}`} onClick={() => (navigate('/pages/settings'), setCurrentPage('settings'))}>
-                        <div className="flex flex-row w-full items-center gap-3 ml-2 justify-between">
-                            <div className={`flex flex-row items-center gap-3 ${currentPage !== "settings" ? "text-foreground2" : ""}`}>
-                                <Settings />
-                                <span className="text-lg">Paramètres</span>
-                            </div>
-                            
-                            <div className={`w-14 h-9 mr-2 gap-1 ${currentPage !== "settings" ? "bg-[#1e2939]" : "bg-secondary"} flex flex-row justify-center items-center rounded-md text-foreground`} >
-                                <Command size={18} />
-                                <span>3</span>
-                            </div>
-                        </div>
-                    </button>
-                </nav>    
-            </div>
+                ))}
+            </nav>
         </div>
-    )
-}
+    );
+};
