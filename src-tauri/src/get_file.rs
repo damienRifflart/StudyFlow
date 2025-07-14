@@ -1,9 +1,7 @@
 use std::fs;
 
 #[tauri::command]
-pub fn read_file(filepath: String) -> String {
-    let contents = fs::read_to_string(filepath)
-        .expect("Should have been able to read the file");
-
-    contents
+pub fn read_file(filepath: String) -> Result<String, String> {
+    fs::read_to_string(&filepath)
+        .map_err(|e| format!("Failed to read file {}: {}", filepath, e))
 }

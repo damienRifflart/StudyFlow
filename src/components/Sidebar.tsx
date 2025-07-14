@@ -19,7 +19,7 @@ export const Sidebar: FC<SidebarProps> = ({ currentPage, setCurrentPage }) => {
     const activeIndex = navItems.findIndex(item => item.key === currentPage);
 
     return (
-        <div className="h-screen w-[18rem] gap-3 bg-background flex flex-col flex-shrink-0 border-r-2 border-border">
+        <div className="h-screen w-[15rem] gap-3 bg-background flex flex-col flex-shrink-0 border-r-2 border-border">
             <div className="h-[5rem] border-b-2 border-border flex justify-center items-center gap-3">
                 <div className="w-[2.5rem] h-[2.5rem] rounded-xl bg-accent flex justify-center items-center">
                     <GraduationCap color="black" size={30} />
@@ -29,14 +29,14 @@ export const Sidebar: FC<SidebarProps> = ({ currentPage, setCurrentPage }) => {
 
             <nav className="relative flex flex-col items-center mt-0 gap-2 flex-1">
                 <div
-                    className="absolute w-[15rem] h-[4.5rem] bg-accent rounded-xl transition-all duration-300 ease-in-out"
+                    className="absolute w-[13rem] h-[4.5rem] bg-accent rounded-xl transition-all duration-300 ease-in-out"
                     style={{ top: `${activeIndex * 5}rem` }}
                 />
 
                 {navItems.map((item) => (
                     <button
                         key={item.key}
-                        className={`relative z-10 w-[15rem] h-[4.5rem] px-4 rounded-xl transition-all flex items-center justify-between focus:border-accent focus:border focus:border-2 ${
+                        className={`relative z-10 w-[12rem] h-[4.5rem] rounded-xl transition-all flex items-center justify-between focus:border-accent focus:border focus:border-2 ${
                             currentPage !== item.key ? "hover:bg-background2 hover:scale-105" : ""
                         }`}
                         onClick={() => {
@@ -44,12 +44,12 @@ export const Sidebar: FC<SidebarProps> = ({ currentPage, setCurrentPage }) => {
                             setCurrentPage(item.key);
                         }}
                     >
-                        <div className={`flex items-center gap-3 ${currentPage !== item.key ? "text-foreground2" : "text-black "}`}>
+                        <div className={`flex items-center gap-1 ml-1 ${currentPage !== item.key ? "text-foreground2" : "text-black "}`}>
                             {item.icon}
                             <span className="text-lg">{item.label}</span>
                         </div>
 
-                        <div className={`w-14 h-9 gap-1 ${currentPage !== item.key ? "bg-[#1e2939]" : "bg-secondary"} flex justify-center items-center rounded-md text-foreground`}>
+                        <div className={`w-10 gap-1 p-1 mr-1 ${currentPage !== item.key ? "bg-[#1e2939]" : "bg-secondary"} flex justify-center items-center rounded-md text-foreground`}>
                             <Command size={18} />
                             <span>{item.shortcut}</span>
                         </div>
