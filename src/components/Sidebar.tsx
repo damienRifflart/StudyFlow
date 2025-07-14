@@ -36,7 +36,7 @@ export const Sidebar: FC<SidebarProps> = ({ currentPage, setCurrentPage }) => {
                 {navItems.map((item) => (
                     <button
                         key={item.key}
-                        className={`relative z-10 w-[15rem] h-[4.5rem] px-4 rounded-xl transition-all flex items-center justify-between ${
+                        className={`relative z-10 w-[15rem] h-[4.5rem] px-4 rounded-xl transition-all flex items-center justify-between focus:border-accent focus:border focus:border-2 ${
                             currentPage !== item.key ? "hover:bg-background2 hover:scale-105" : ""
                         }`}
                         onClick={() => {
@@ -44,7 +44,7 @@ export const Sidebar: FC<SidebarProps> = ({ currentPage, setCurrentPage }) => {
                             setCurrentPage(item.key);
                         }}
                     >
-                        <div className={`flex items-center gap-3 ${currentPage !== item.key ? "text-foreground2" : "text-foreground"}`}>
+                        <div className={`flex items-center gap-3 ${currentPage !== item.key ? "text-foreground2" : "text-black "}`}>
                             {item.icon}
                             <span className="text-lg">{item.label}</span>
                         </div>

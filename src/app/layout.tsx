@@ -6,13 +6,10 @@ import Flashcards from "./pages/Flashcards";
 import Settings from "./pages/Settings";
 import "./App.css";
 import { Sidebar } from "../components/Sidebar";
-import { invoke } from '@tauri-apps/api/core';
 
 function App() {
     const [currentPage, setCurrentPage] = useState<string>("notes");
     const navigate = useNavigate();
-
-    invoke('my_custom_command', { invokeMessage: 'Hello!' });
 
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
