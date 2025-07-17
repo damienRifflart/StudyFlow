@@ -20,7 +20,7 @@ Bienvenue sur **Studyflow**, l'application de prise de notes markdown pensée sp
 
 - 🦀 **Tauri** (backend Rust)
 - 🧑‍💻 **TypeScript**, **React**, **TailwindCSS**
-- 📄 Markdown avec `remark`
+- 📄 Markdown avec `mdx`
 - 🔢 Rendu mathématique avec `KaTeX`
 
 ## 🚀 Tester l'application
