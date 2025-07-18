@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { BarChart3 } from 'lucide-react';
+import { BarChart3, Info } from 'lucide-react';
 import MDEditor, { commands } from '@uiw/react-md-editor';
 import Chart from '@/components/markdown/Chart';
+import Information from '@/components/markdown/Information';
 import { evaluate } from '@mdx-js/mdx';
 import { EditorTabs } from '@/components/EditorTabs';
 import * as runtime from 'react/jsx-runtime';
@@ -23,6 +24,7 @@ export function MarkdownEditor({ content, onContentChange, hasUnsavedChanges, is
     const [currentTab, setCurrentTab] = useState<TabMode>('preview');
     const [chartModalOpen, setChartModalOpen] = useState<boolean>(false);
     const [CompiledMDX, setCompiledMDX] = useState<React.ComponentType<any> | null>(null);
+    const [isPreviewVisible, setIsPreviewVisible] = useState(false);
 
     useEffect(() => {
         if (!content) {
@@ -41,21 +43,31 @@ export function MarkdownEditor({ content, onContentChange, hasUnsavedChanges, is
         })();
     }, [content]);
 
+    useEffect(() => {
+        if (currentTab === 'preview') {
+            setIsPreviewVisible(false);
+            const timeout = setTimeout(() => setIsPreviewVisible(true), 10);
+            return () => clearTimeout(timeout);
+        } else {
+            setIsPreviewVisible(false);
+        }
+    }, [currentTab]);
+
     function insertChart(config: ChartConfig) {
         const { title, type, width, height, data } = config;
 
         const chartTemplate = `<Chart 
-  title="${title}" 
-  type="${type}" 
-  width={${width}} 
-  height={${height}} 
-  data={{
-    labels: [${data.labels.map(label => `'${label}'`).join(', ')}],
-    datasets: [{
-      label: "${data.datasets[0].label}",
-      data: [${data.datasets[0].data.join(', ')}],
-    }]
-  }} 
+    title="${title}" 
+    type="${type}" 
+    width={${width}} 
+    height={${height}} 
+    data={{
+        labels: [${data.labels.map(label => `'${label}'`).join(', ')}],
+        datasets: [{
+            label: "${data.datasets[0].label}",
+            data: [${data.datasets[0].data.join(', ')}],
+        }]
+    }} 
 />`;
 
         const currentContent = content || '';
@@ -65,12 +77,27 @@ export function MarkdownEditor({ content, onContentChange, hasUnsavedChanges, is
         setChartModalOpen(false);
     }
 
+    function insertInformation() {
+        const currentContent = content || '';
+        const newContent = currentContent + '\n\n<Information information={"test"} />';
+
+        onContentChange(newContent);
+    }
+
     const chart: ICommand = {
         name: 'graphique',
         keyCommand: 'graphique',
         buttonProps: { 'aria-label': 'Insérer un graphique' },
         icon: <BarChart3 size={16} />,
         execute: () => setChartModalOpen(true)
+    }
+
+    const information: ICommand = {
+        name: 'information',
+        keyCommand: 'information',
+        buttonProps: { 'aria-label': 'Insérer une information' },
+        icon: <Info size={16} />,
+        execute: () => insertInformation()
     }
 
     return (
@@ -108,7 +135,8 @@ export function MarkdownEditor({ content, onContentChange, hasUnsavedChanges, is
                                     commands.image,
                                     commands.checkedListCommand,
                                     commands.divider,
-                                    chart
+                                    chart,
+                                    information
                                 ]}
                             />
                         </div>
@@ -116,7 +144,17 @@ export function MarkdownEditor({ content, onContentChange, hasUnsavedChanges, is
                 ) : (
                     <div className="p-5 markdown-body">
                         {CompiledMDX ? (
-                            <CompiledMDX components={{ Chart }} />
+                            <div
+                                className={`p-5 markdown-body transition-all duration-500 ease-out
+                                                ${isPreviewVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}
+                                            `}
+                            >
+                                {CompiledMDX ? (
+                                    <CompiledMDX components={{ Chart, Information }} />
+                                ) : (
+                                    <p className="text-foreground whitespace-pre-wrap max-w-3xl">{content}</p>
+                                )}
+                            </div>
                         ) : (
                             <p className="text-foreground whitespace-pre-wrap max-w-3xl">{content}</p>
                         )}
