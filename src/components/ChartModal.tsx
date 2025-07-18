@@ -30,7 +30,7 @@ export function ChartModal({ isOpen, onClose, onSave, editingChart }: ChartModal
         editingChart || {
             id: Date.now().toString(),
             title: 'Mon graphique',
-            type: 'line',
+            type: 'bar',
             width: 400,
             height: 300,
             data: {

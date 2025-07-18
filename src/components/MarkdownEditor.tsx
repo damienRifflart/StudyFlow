@@ -1,11 +1,13 @@
-import { useState, useEffect } from 'react';
-import { BarChart3 } from "lucide-react";
-import { evaluate } from '@mdx-js/mdx';
-import * as runtime from 'react/jsx-runtime';
+import { useEffect, useState } from 'react';
+import { BarChart3 } from 'lucide-react';
+import MDEditor, { commands } from '@uiw/react-md-editor';
 import Chart from '@/components/markdown/Chart';
+import { evaluate } from '@mdx-js/mdx';
 import { EditorTabs } from '@/components/EditorTabs';
-import { ChartModal } from '@/components/ChartModal'
-import { ChartConfig } from '@root/types/global'
+import * as runtime from 'react/jsx-runtime';
+import { ChartModal } from '@/components/ChartModal';
+import { ChartConfig } from '@root/types/global';
+import { ICommand } from '@uiw/react-md-editor';
 
 type TabMode = 'edit' | 'preview';
 
@@ -17,12 +19,10 @@ interface MarkdownEditorProps {
     onSave: () => void;
 }
 
-
-
 export function MarkdownEditor({ content, onContentChange, hasUnsavedChanges, isSaving, onSave }: MarkdownEditorProps) {
     const [currentTab, setCurrentTab] = useState<TabMode>('preview');
+    const [chartModalOpen, setChartModalOpen] = useState<boolean>(false);
     const [CompiledMDX, setCompiledMDX] = useState<React.ComponentType<any> | null>(null);
-    const [chartModalOpen, setChartModalOpen] = useState<boolean>(false)
 
     useEffect(() => {
         if (!content) {
@@ -44,30 +44,33 @@ export function MarkdownEditor({ content, onContentChange, hasUnsavedChanges, is
     function insertChart(config: ChartConfig) {
         const { title, type, width, height, data } = config;
 
-        const chartTemplate = `<Chart
-  title="${title}"
-  type="${type}"
-  width={${width}}
-  height={${height}}
+        const chartTemplate = `<Chart 
+  title="${title}" 
+  type="${type}" 
+  width={${width}} 
+  height={${height}} 
   data={{
     labels: [${data.labels.map(label => `'${label}'`).join(', ')}],
     datasets: [{
       label: "${data.datasets[0].label}",
       data: [${data.datasets[0].data.join(', ')}],
     }]
-  }}
+  }} 
 />`;
-        const textarea = document.querySelector('textarea') as HTMLTextAreaElement | null;
-        if (!textarea) return;
 
-        const start = textarea.selectionStart;
-        const end = textarea.selectionEnd;
+        const currentContent = content || '';
+        const newContent = currentContent + '\n\n' + chartTemplate;
 
-        const newContent = content.slice(0, start) + chartTemplate + content.slice(end);
         onContentChange(newContent);
-        textarea.focus();
-
         setChartModalOpen(false);
+    }
+
+    const chart: ICommand = {
+        name: 'graphique',
+        keyCommand: 'graphique',
+        buttonProps: { 'aria-label': 'Insérer un graphique' },
+        icon: <BarChart3 size={16} />,
+        execute: () => setChartModalOpen(true)
     }
 
     return (
@@ -82,32 +85,34 @@ export function MarkdownEditor({ content, onContentChange, hasUnsavedChanges, is
 
             <div className="flex-1 overflow-y-auto">
                 {currentTab === 'edit' ? (
-                    <>
-                        <div className="flex flex-row sticky top-0 gap-2 px-4 py-2 border-b border-border bg-background2">
-                            <p className="text-foreground">Insérez :</p>
-                            <button
-                                onClick={() => setChartModalOpen(true)}
-                                className="flex items-center gap-2 px-3 py-1 rounded text-sm font-medium transition-colors bg-background3 text-foreground2 hover:text-foreground hover:bg-background"
-                                title="Insérer un graphique"
-                            >
-                                <BarChart3 size={16} />
-                                Graphique
-                            </button>
-                        </div>
+                    <div className="flex flex-col h-full">
 
                         <ChartModal isOpen={chartModalOpen} onClose={() => setChartModalOpen(false)} onSave={insertChart} />
 
-
-                        <div className="flex-1 p-4 h-full">
-                            <textarea
+                        <div className="p-4" data-color-mode="dark">
+                            <MDEditor
                                 value={content}
-                                onChange={(e) => onContentChange(e.target.value)}
-                                className="w-full h-full bg-background2 text-foreground p-4 rounded border border-border resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono text-sm"
-                                placeholder="Commencer à écrire..."
-                                spellCheck={false}
+                                onChange={value => onContentChange(value || '')}
+                                textareaProps={{
+                                    placeholder: 'Commencer à écrire...',
+                                    spellCheck: false,
+                                    className: 'font-mono text-sm',
+                                }}
+                                preview="edit"
+                                height={typeof window !== 'undefined' ? window.innerHeight - 200 : undefined}
+                                commands={[
+                                    commands.bold,
+                                    commands.italic,
+                                    commands.hr,
+                                    commands.code,
+                                    commands.image,
+                                    commands.checkedListCommand,
+                                    commands.divider,
+                                    chart
+                                ]}
                             />
                         </div>
-                    </>
+                    </div>
                 ) : (
                     <div className="p-5 markdown-body">
                         {CompiledMDX ? (
