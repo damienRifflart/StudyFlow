@@ -3,13 +3,36 @@ import { useFileEditor } from '@/app/hooks/useFileEditor';
 import { FileTree } from '@/components/FileTree';
 import { MarkdownEditor } from '@/components/MarkdownEditor';
 import { FileText } from "lucide-react";
+import { useEffect } from 'react';
 
 export default function Notes() {
     const rootPath = "/home/damienrifflart/Documents/Notes";
     const { tree, closedFolders, toggleFolder } = useFileTree(rootPath);
-    const { selectedFilePath, originalContent, editedContent, setEditedContent, hasUnsavedChanges, isSaving, selectFile, saveFile } = useFileEditor();
+    const { selectedFilePath, originalContent, editedContentRaw, setEditedContent, hasUnsavedChanges, isSaving, selectFile, saveFile, undo, redo } = useFileEditor();
 
     const isMarkdownFile = selectedFilePath?.match(/\.mdx?$/i);
+
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
+                e.preventDefault();
+                if (hasUnsavedChanges) {
+                    saveFile();
+                }
+            }
+            if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') {
+                e.preventDefault();
+                undo();
+            }
+            if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'y') {
+                e.preventDefault();
+                redo();
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [hasUnsavedChanges, saveFile, undo, redo]);
 
     return (
         <div className="w-full bg-background flex">
@@ -26,7 +49,7 @@ export default function Notes() {
             <main className="flex-1 overflow-hidden flex flex-col">
                 {originalContent && isMarkdownFile ? (
                     <MarkdownEditor
-                        content={editedContent}
+                        content={editedContentRaw}
                         onContentChange={setEditedContent}
                         hasUnsavedChanges={hasUnsavedChanges}
                         isSaving={isSaving}

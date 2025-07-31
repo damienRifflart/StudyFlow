@@ -36,19 +36,17 @@ export function EditorTabs({ currentTab, onTabChange, hasUnsavedChanges, isSavin
                 </button>
             </div>
 
-            {currentTab === 'edit' && (
-                <button
-                    onClick={onSave}
-                    disabled={!hasUnsavedChanges || isSaving}
-                    className={`flex items-center gap-2 px-3 py-1 rounded text-sm font-medium transition-colors ${hasUnsavedChanges && !isSaving
-                        ? 'bg-blue-600 text-white hover:bg-blue-700'
-                        : 'bg-background3 text-foreground2 cursor-not-allowed'
-                        }`}
-                >
-                    <Save size={16} />
-                    {isSaving ? 'Enregistrement...' : 'Enregistrer'}
-                </button>
-            )}
+            <button
+                onClick={onSave}
+                disabled={!hasUnsavedChanges || isSaving}
+                className={`flex items-center gap-2 px-3 py-1 rounded text-sm font-medium transition-colors ${hasUnsavedChanges && !isSaving
+                    ? 'bg-blue-600 text-white hover:bg-blue-700'
+                    : 'bg-background3 text-foreground2 cursor-not-allowed'
+                    }`}
+            >
+                <Save size={16} />
+                {isSaving ? 'Enregistrement...' : 'Enregistrer'}
+            </button>
         </div>
     );
 }

@@ -14,7 +14,7 @@ function App() {
 
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
-            if (event.ctrlKey) {
+            if (event.ctrlKey || event.metaKey) {
                 switch (event.code) {
                     case "Digit1":
                         navigate("/pages/notes");
