@@ -5,6 +5,7 @@ import Notes from "./pages/Notes";
 import Flashcards from "./pages/Flashcards";
 import Settings from "./pages/Settings";
 import "./App.css";
+import "./Markdown.css";
 import { Sidebar } from "../components/Sidebar";
 
 function App() {

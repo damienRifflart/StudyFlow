@@ -3,68 +3,14 @@
 @tailwind utilities;
 
 :root {
-    --background: #040607;
-    --foreground: #ebe9fc;
-    --border: #364153;
-    --secondary: #2e7191;
-    --accent: #7ab4d1;
-    --foreground2: #99a1af;
-    --background2: #111820;
+  --background: #040607;
+  --foreground: #ebe9fc;
+  --border: #364153;
+  --secondary: #2e7191;
+  --accent: #7ab4d1;
+  --foreground2: #99a1af;
+  --background2: #111820;
 
-    background-color: var(--background);
-    color: var(--foreground);
-}
-
-.markdown-body {
-  font-size: 1rem;
-  line-height: 1.7;
+  background-color: var(--background);
   color: var(--foreground);
-}
-
-.markdown-body h1 {
-  font-size: 2rem;
-  font-weight: bold;
-}
-
-.markdown-body h2 {
-  font-size: 1.5rem;
-  font-weight: 600;
-}
-
-.markdown-body p {
-  margin: 1rem 0;
-}
-
-.markdown-body code {
-  background-color: var(--background2);
-  color: var(--accent);
-  padding: 0.2rem 0.4rem;
-  border-radius: 4px;
-  font-family: monospace;
-  font-size: 0.95em;
-}
-
-.markdown-body pre {
-  background-color: var(--background2);
-  color: var(--foreground);
-  padding: 1rem;
-  border-radius: 6px;
-  overflow-x: auto;
-}
-
-.markdown-body blockquote {
-  border-left: 4px solid var(--border);
-  padding-left: 1rem;
-  font-style: italic;
-  color: var(--foreground2);
-  margin: 1rem 0;
-}
-
-.markdown-body ul {
-  list-style-type: disc;
-  padding-left: 1.5rem;
-}
-
-.markdown-body li {
-  margin: 0.5rem 0;
 }

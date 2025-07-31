@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { BarChart3, Info } from 'lucide-react';
-import MDEditor, { commands } from '@uiw/react-md-editor';
+import MDEditor, { commands, ICommand } from '@uiw/react-md-editor';
 import Chart from '@/components/markdown/Chart';
 import Information from '@/components/markdown/Information';
 import { evaluate } from '@mdx-js/mdx';
@@ -8,7 +8,6 @@ import { EditorTabs } from '@/components/EditorTabs';
 import * as runtime from 'react/jsx-runtime';
 import { ChartModal } from '@/components/ChartModal';
 import { ChartConfig } from '@root/types/global';
-import { ICommand } from '@uiw/react-md-editor';
 
 type TabMode = 'edit' | 'preview';
 
@@ -79,7 +78,7 @@ export function MarkdownEditor({ content, onContentChange, hasUnsavedChanges, is
 
     function insertInformation() {
         const currentContent = content || '';
-        const newContent = currentContent + '\n\n<Information information={"test"} />';
+        const newContent = currentContent + '<Information information="Une information." />';
 
         onContentChange(newContent);
     }
@@ -126,7 +125,7 @@ export function MarkdownEditor({ content, onContentChange, hasUnsavedChanges, is
                                     className: 'font-mono text-sm',
                                 }}
                                 preview="edit"
-                                height={typeof window !== 'undefined' ? window.innerHeight - 200 : undefined}
+                                height={typeof window !== 'undefined' ? window.innerHeight - 100 : undefined}
                                 commands={[
                                     commands.bold,
                                     commands.italic,
