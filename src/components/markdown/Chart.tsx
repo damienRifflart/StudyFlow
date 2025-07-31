@@ -107,31 +107,31 @@ export default function Chart({
     switch (type) {
         case 'bar':
             return (
-                <div style={containerStyle}>
+                <div style={containerStyle} className="mb-5">
                     <Bar data={chartData} options={getChartOptions('bar')} width={width} height={height} />
                 </div>
             );
         case 'line':
             return (
-                <div style={containerStyle}>
+                <div style={containerStyle} className="mb-5">
                     <Line data={chartData} options={getChartOptions('line')} width={width} height={height} />
                 </div>
             );
         case 'scatter':
             return (
-                <div style={containerStyle}>
+                <div style={containerStyle} className="mb-5">
                     <Scatter data={chartData} options={getChartOptions('scatter')} width={width} height={height} />
                 </div>
             );
         case 'doughnut':
             return (
-                <div style={containerStyle}>
+                <div style={containerStyle} className="mb-5">
                     <Doughnut data={chartData} options={getChartOptions('doughnut')} width={width} height={height} />
                 </div>
             );
         case 'pie':
             return (
-                <div style={containerStyle}>
+                <div style={containerStyle} className="mb-5">
                     <Pie data={chartData} options={getChartOptions('pie')} width={width} height={height} />
                 </div>
             );

@@ -8,6 +8,7 @@ import { EditorTabs } from '@/components/EditorTabs';
 import * as runtime from 'react/jsx-runtime';
 import { ChartModal } from '@/components/ChartModal';
 import { ChartConfig } from '@root/types/global';
+import remarkGfm from 'remark-gfm';
 
 type TabMode = 'edit' | 'preview';
 
@@ -33,11 +34,16 @@ export function MarkdownEditor({ content, onContentChange, hasUnsavedChanges, is
 
         (async () => {
             try {
-                const { default: Content } = await evaluate(content, runtime);
+                const { default: Content } = await evaluate(content, {
+                    ...runtime,
+                    remarkPlugins: [remarkGfm],
+                });
                 setCompiledMDX(() => Content);
             } catch (error) {
                 console.error('MDX compilation error:', error);
-                setCompiledMDX(() => () => <div className="text-red-500">Error compiling MDX</div>);
+                setCompiledMDX(() => () => (
+                    <div className="text-red-500">Error compiling MDX</div>
+                ));
             }
         })();
     }, [content]);
@@ -61,7 +67,7 @@ export function MarkdownEditor({ content, onContentChange, hasUnsavedChanges, is
     width={${width}} 
     height={${height}} 
     data={{
-        labels: [${data.labels.map(label => `'${label}'`).join(', ')}],
+        labels: [${data.labels.map((label) => `'${label}'`).join(', ')}],
         datasets: [{
             label: "${data.datasets[0].label}",
             data: [${data.datasets[0].data.join(', ')}],
@@ -78,7 +84,8 @@ export function MarkdownEditor({ content, onContentChange, hasUnsavedChanges, is
 
     function insertInformation() {
         const currentContent = content || '';
-        const newContent = currentContent + '<Information information="Une information." />';
+        const newContent =
+            currentContent + '<Information information="Une information." />';
 
         onContentChange(newContent);
     }
@@ -89,7 +96,7 @@ export function MarkdownEditor({ content, onContentChange, hasUnsavedChanges, is
         buttonProps: { 'aria-label': 'Insérer un graphique' },
         icon: <BarChart3 size={16} />,
         execute: () => setChartModalOpen(true)
-    }
+    };
 
     const information: ICommand = {
         name: 'information',
@@ -97,7 +104,7 @@ export function MarkdownEditor({ content, onContentChange, hasUnsavedChanges, is
         buttonProps: { 'aria-label': 'Insérer une information' },
         icon: <Info size={16} />,
         execute: () => insertInformation()
-    }
+    };
 
     return (
         <>
@@ -118,14 +125,18 @@ export function MarkdownEditor({ content, onContentChange, hasUnsavedChanges, is
                         <div className="p-4" data-color-mode="dark">
                             <MDEditor
                                 value={content}
-                                onChange={value => onContentChange(value || '')}
+                                onChange={(value) => onContentChange(value || '')}
                                 textareaProps={{
                                     placeholder: 'Commencer à écrire...',
                                     spellCheck: false,
                                     className: 'font-mono text-sm',
                                 }}
                                 preview="edit"
-                                height={typeof window !== 'undefined' ? window.innerHeight - 100 : undefined}
+                                height={
+                                    typeof window !== 'undefined'
+                                        ? window.innerHeight - 100
+                                        : undefined
+                                }
                                 commands={[
                                     commands.bold,
                                     commands.italic,
@@ -145,17 +156,15 @@ export function MarkdownEditor({ content, onContentChange, hasUnsavedChanges, is
                         {CompiledMDX ? (
                             <div
                                 className={`p-5 markdown-body transition-all duration-500 ease-out
-                                                ${isPreviewVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}
-                                            `}
+                                    ${isPreviewVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}
+                                `}
                             >
-                                {CompiledMDX ? (
-                                    <CompiledMDX components={{ Chart, Information }} />
-                                ) : (
-                                    <p className="text-foreground whitespace-pre-wrap max-w-3xl">{content}</p>
-                                )}
+                                <CompiledMDX components={{ Chart, Information }} />
                             </div>
                         ) : (
-                            <p className="text-foreground whitespace-pre-wrap max-w-3xl">{content}</p>
+                            <p className="text-foreground whitespace-pre-wrap max-w-3xl">
+                                {content}
+                            </p>
                         )}
                     </div>
                 )}
