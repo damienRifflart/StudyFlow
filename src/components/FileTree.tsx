@@ -1,4 +1,4 @@
-import { ChevronDown, ChevronUp, FileText } from "lucide-react";
+import { ChevronDown, ChevronUp, FileText, Trash2 } from "lucide-react";
 import { FileNode } from '@/app/hooks/useFileTree';
 
 interface FileTreeProps {
@@ -6,10 +6,11 @@ interface FileTreeProps {
   closedFolders: Set<string>;
   onToggleFolder: (path: string) => void;
   onSelectFile: (path: string) => void;
+  onDeleteFile: (path: string) => void;
   rootPath: string;
 }
 
-export function FileTree({ tree, closedFolders, onToggleFolder, onSelectFile, rootPath }: FileTreeProps) {
+export function FileTree({ tree, closedFolders, onToggleFolder, onSelectFile, onDeleteFile, rootPath }: FileTreeProps) {
   if (!tree) return <div>Chargement...</div>;
 
   const isAtRoot = (filePath: string): boolean => {
@@ -27,21 +28,30 @@ export function FileTree({ tree, closedFolders, onToggleFolder, onSelectFile, ro
       <div key={node.path} className="flex flex-col">
         <div>
           {node.is_dir ? (
-            <button 
-              onClick={() => onToggleFolder(node.path)} 
+            <button
+              onClick={() => onToggleFolder(node.path)}
               className="flex items-center p-1 mb-1 rounded hover:bg-background2 w-full"
             >
               {isClosed ? <ChevronDown /> : <ChevronUp />}
               <span className="ml-1">{label}</span>
             </button>
           ) : (
-            <button 
-              onClick={() => onSelectFile(node.path)} 
-              className="flex items-center p-1 mb-1 rounded hover:bg-background2 w-full"
+            <button
+              onClick={() => onSelectFile(node.path)}
+              className="flex items-center p-1 mb-1 rounded hover:bg-background2 w-full focus:border border-3 border-border group relative"
             >
               <FileText size={20} />
               <span className="ml-1">{label}</span>
+              <button
+                className="absolute right-2 w-6 h-6 hidden group-hover:flex items-center justify-center
+                          group-hover:text-red-600 group-hover:bg-background rounded-md
+                          transition-all duration-300"
+                onClick={() => onDeleteFile(node.path)}
+              >
+                <Trash2 size={16} />
+              </button>
             </button>
+
           )}
         </div>
         {node.is_dir && (

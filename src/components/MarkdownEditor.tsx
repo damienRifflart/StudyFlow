@@ -152,7 +152,7 @@ export function MarkdownEditor({ content, onContentChange, hasUnsavedChanges, is
                         </div>
                     </div>
                 ) : (
-                    <div className="p-5 markdown-body">
+                    <div className="p-5 ">
                         {CompiledMDX ? (
                             <div
                                 className={`p-5 markdown-body transition-all duration-500 ease-out

@@ -24,5 +24,13 @@ export function useFileTree(rootPath: string) {
         });
     };
 
-    return { tree, closedFolders, toggleFolder };
+    const deleteFile = (filePath: string) => {
+        if (filePath) {
+            invoke<string>('delete_file', { filepath: filePath }).then(() => {
+                invoke<FileNode>('read_tree', { folderpath: rootPath }).then(setTree);
+            });
+        }
+    }
+
+    return { tree, closedFolders, toggleFolder, deleteFile };
 }

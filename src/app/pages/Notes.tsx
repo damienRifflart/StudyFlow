@@ -7,7 +7,7 @@ import { useEffect } from 'react';
 
 export default function Notes() {
     const rootPath = "/home/damienrifflart/Documents/Notes";
-    const { tree, closedFolders, toggleFolder } = useFileTree(rootPath);
+    const { tree, closedFolders, toggleFolder, deleteFile } = useFileTree(rootPath);
     const { selectedFilePath, originalContent, editedContentRaw, setEditedContent, hasUnsavedChanges, isSaving, selectFile, saveFile, undo, redo } = useFileEditor();
 
     const isMarkdownFile = selectedFilePath?.match(/\.mdx?$/i);
@@ -41,6 +41,7 @@ export default function Notes() {
                     tree={tree}
                     closedFolders={closedFolders}
                     onToggleFolder={toggleFolder}
+                    onDeleteFile={deleteFile}
                     onSelectFile={selectFile}
                     rootPath={rootPath}
                 />
