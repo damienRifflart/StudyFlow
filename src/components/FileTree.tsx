@@ -7,23 +7,17 @@ interface FileTreeProps {
   onToggleFolder: (path: string) => void;
   onSelectFile: (path: string) => void;
   onDeleteFile: (path: string) => void;
-  rootPath: string;
 }
 
-export function FileTree({ tree, closedFolders, onToggleFolder, onSelectFile, onDeleteFile, rootPath }: FileTreeProps) {
+export function FileTree({ tree, closedFolders, onToggleFolder, onSelectFile, onDeleteFile }: FileTreeProps) {
   if (!tree) return <div>Chargement...</div>;
 
-  const isAtRoot = (filePath: string): boolean => {
-    const relative = filePath.replace(rootPath, '').replace(/^\//, '');
-    return !relative.includes('/') || relative === '';
-  };
-
   const renderNode = (node: FileNode) => {
-    const atRoot = isAtRoot(node.path);
     const isClosed = closedFolders.has(node.path);
     let label = node.name.replace(/\.mdx?$/i, '');
-    if (!atRoot && label.length > 15) label = label.slice(0, 15) + '...';
-
+    if (label.length > 15) {
+      label = label.slice(0, 15) + '...';
+    }
     return (
       <div key={node.path} className="flex flex-col">
         <div>
@@ -42,14 +36,14 @@ export function FileTree({ tree, closedFolders, onToggleFolder, onSelectFile, on
             >
               <FileText size={20} />
               <span className="ml-1">{label}</span>
-              <button
+              <a
                 className="absolute right-2 w-6 h-6 hidden group-hover:flex items-center justify-center
                           group-hover:text-red-600 group-hover:bg-background rounded-md
                           transition-all duration-300"
                 onClick={() => onDeleteFile(node.path)}
               >
                 <Trash2 size={16} />
-              </button>
+              </a>
             </button>
 
           )}

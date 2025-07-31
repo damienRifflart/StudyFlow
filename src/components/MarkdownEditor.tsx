@@ -9,6 +9,9 @@ import * as runtime from 'react/jsx-runtime';
 import { ChartModal } from '@/components/ChartModal';
 import { ChartConfig } from '@root/types/global';
 import remarkGfm from 'remark-gfm';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+import 'katex/dist/katex.min.css';
 
 type TabMode = 'edit' | 'preview';
 
@@ -36,7 +39,8 @@ export function MarkdownEditor({ content, onContentChange, hasUnsavedChanges, is
             try {
                 const { default: Content } = await evaluate(content, {
                     ...runtime,
-                    remarkPlugins: [remarkGfm],
+                    remarkPlugins: [remarkGfm, remarkMath],
+                    rehypePlugins: [rehypeKatex],
                 });
                 setCompiledMDX(() => Content);
             } catch (error) {
@@ -152,7 +156,7 @@ export function MarkdownEditor({ content, onContentChange, hasUnsavedChanges, is
                         </div>
                     </div>
                 ) : (
-                    <div className="p-5 ">
+                    <div>
                         {CompiledMDX ? (
                             <div
                                 className={`p-5 markdown-body transition-all duration-500 ease-out

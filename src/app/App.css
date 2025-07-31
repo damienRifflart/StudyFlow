@@ -13,3 +13,11 @@
 
   background-color: var(--background);
 }
+
+.markdown-body katex-display {
+  margin-top: 5px;
+}
+
+.markdown-body .katex-html {
+    font-size: 1.5rem;
+}

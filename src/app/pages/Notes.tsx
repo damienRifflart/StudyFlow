@@ -43,7 +43,6 @@ export default function Notes() {
                     onToggleFolder={toggleFolder}
                     onDeleteFile={deleteFile}
                     onSelectFile={selectFile}
-                    rootPath={rootPath}
                 />
             </aside>
 
