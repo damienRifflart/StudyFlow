@@ -16,7 +16,7 @@ pub fn create_file(folderpath: String, filename: String) -> Result<(), String> {
 
     let mut file = fs::File::create(&filepath)
         .map_err(|e| format!("Failed to create file {}: {}", filepath.display(), e))?;
-        
+
     file.write_all(b"# Nouveau fichier MDX\n")
         .map_err(|e| format!("Failed to write to file {}: {}", filepath.display(), e))?;
 

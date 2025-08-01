@@ -10,6 +10,8 @@ import { Sidebar } from "../components/Sidebar";
 
 function App() {
     const [currentPage, setCurrentPage] = useState<string>("notes");
+    const [rootPath, setRootPath] = useState<string>("/home/damienrifflart/Documents/Notes");
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -42,9 +44,9 @@ function App() {
             <Sidebar currentPage={currentPage} setCurrentPage={setCurrentPage} />
             <Routes>
                 <Route path="/" element={<Navigate to="/pages/notes" replace />} />
-                <Route path="/pages/notes" element={<Notes />} />
+                <Route path="/pages/notes" element={<Notes rootPath={rootPath} />} />
                 <Route path="/pages/flashcards" element={<Flashcards />} />
-                <Route path="/pages/settings" element={<Settings />} />
+                <Route path="/pages/settings" element={<Settings rootPath={rootPath} setRootPath={setRootPath} />} />
             </Routes>
         </div>
     );

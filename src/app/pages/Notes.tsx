@@ -5,11 +5,15 @@ import { MarkdownEditor } from '@/components/MarkdownEditor';
 import { FileText } from "lucide-react";
 import { useEffect } from 'react';
 
-export default function Notes() {
-    const rootPath = "/home/damienrifflart/Documents/Notes";
+interface NotesProps {
+    rootPath: string;
+}
+
+export default function Notes({ rootPath }: NotesProps) {
     const { tree, closedFolders, toggleFolder, deleteFile, createFile } = useFileTree(rootPath);
     const { selectedFilePath, originalContent, editedContentRaw, setEditedContent, hasUnsavedChanges, isSaving, selectFile, saveFile, undo, redo } = useFileEditor();
 
+    console.log(rootPath)
     const isMarkdownFile = selectedFilePath?.match(/\.mdx?$/i);
 
     useEffect(() => {

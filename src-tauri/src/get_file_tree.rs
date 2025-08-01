@@ -1,6 +1,6 @@
+use serde::Serialize;
 use std::fs; // pour lire les fichier
-use std::path::PathBuf;
-use serde::Serialize; // pour envoyer en json
+use std::path::PathBuf; // pour envoyer en json
 
 #[derive(Serialize)]
 pub struct FileNode {
@@ -43,7 +43,12 @@ pub fn read_tree(folderpath: String) -> Result<FileNode, String> {
             }))
         } else {
             // inclure uniquement les fichiers '.md' ou '.mdx'
-            if path.extension().and_then(|ext| ext.to_str()).map(|ext| ext == "md" || ext == "mdx").unwrap_or(false) {
+            if path
+                .extension()
+                .and_then(|ext| ext.to_str())
+                .map(|ext| ext == "md" || ext == "mdx")
+                .unwrap_or(false)
+            {
                 Ok(Some(FileNode {
                     name,
                     path: path.to_string_lossy().to_string(),
@@ -57,7 +62,7 @@ pub fn read_tree(folderpath: String) -> Result<FileNode, String> {
     }
 
     let path = PathBuf::from(folderpath);
-    walk(&path)
-        .map_err(|e| e.to_string())
-        .and_then(|opt| opt.ok_or_else(|| "Le dossier ne contient aucun fichier .md ou .mdx".to_string()))
+    walk(&path).map_err(|e| e.to_string()).and_then(|opt| {
+        opt.ok_or_else(|| "Le dossier ne contient aucun fichier .md ou .mdx".to_string())
+    })
 }
