@@ -12,7 +12,7 @@ export const Sidebar: FC<SidebarProps> = ({ currentPage, setCurrentPage }) => {
 
     const navItems = [
         { label: "Notes", icon: <FileText />, key: "notes", shortcut: "1" },
-        { label: "Flashcards", icon: <Brain />, key: "flashcards", shortcut: "2" },
+        { label: "Quiz", icon: <Brain />, key: "quiz", shortcut: "2" },
         { label: "Paramètres", icon: <Settings />, key: "settings", shortcut: "3" },
     ];
 

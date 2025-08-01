@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import Notes from "./pages/Notes";
-import Flashcards from "./pages/Flashcards";
+import Quiz from "./pages/Quiz";
 import Settings from "./pages/Settings";
 import "./App.css";
 import 'github-markdown-css/github-markdown-dark.css';
@@ -23,8 +23,8 @@ function App() {
                         setCurrentPage("notes");
                         break;
                     case "Digit2":
-                        navigate("/pages/flashcards");
-                        setCurrentPage("flashcards");
+                        navigate("/pages/quiz");
+                        setCurrentPage("quiz");
                         break;
                     case "Digit3":
                         navigate("/pages/settings");
@@ -45,7 +45,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<Navigate to="/pages/notes" replace />} />
                 <Route path="/pages/notes" element={<Notes rootPath={rootPath} />} />
-                <Route path="/pages/flashcards" element={<Flashcards />} />
+                <Route path="/pages/quiz" element={<Quiz />} />
                 <Route path="/pages/settings" element={<Settings rootPath={rootPath} setRootPath={setRootPath} />} />
             </Routes>
         </div>

@@ -18,7 +18,6 @@ export default function Settings({ rootPath, setRootPath }: SettingsProps) {
 
             if (selected && typeof selected === 'string') {
                 setRootPath(selected);
-                console.log('Dossier sélectionné:', selected);
             }
         } catch (error) {
             console.error('Erreur lors de la sélection du dossier:', error);

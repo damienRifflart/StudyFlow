@@ -1,5 +1,6 @@
 import path from 'path';
 import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
 const host = process.env.TAURI_DEV_HOST;
 
@@ -44,5 +45,6 @@ export default defineConfig({
       '@': path.resolve(__dirname, 'src'),
       '@root': path.resolve(__dirname, '.')
     }
-  }
+  },
+  plugins: [react()],
 });
