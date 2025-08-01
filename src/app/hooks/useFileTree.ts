@@ -32,5 +32,14 @@ export function useFileTree(rootPath: string) {
         }
     }
 
-    return { tree, closedFolders, toggleFolder, deleteFile };
+    const createFile = (folderPath: string) => {
+        const fileName = prompt('Enter file name:');
+        if (fileName) {
+            invoke<string>('create_file', { folderpath: folderPath, filename: fileName }).then(() => {
+                invoke<FileNode>('read_tree', { folderpath: rootPath }).then(setTree);
+            });
+        }
+    };
+
+    return { tree, closedFolders, toggleFolder, deleteFile, createFile };
 }

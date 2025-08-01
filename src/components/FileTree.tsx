@@ -1,4 +1,4 @@
-import { ChevronDown, ChevronUp, FileText, Trash2 } from "lucide-react";
+import { ChevronDown, ChevronUp, FileText, Plus, Trash2 } from "lucide-react";
 import { FileNode } from '@/app/hooks/useFileTree';
 
 interface FileTreeProps {
@@ -7,9 +7,10 @@ interface FileTreeProps {
   onToggleFolder: (path: string) => void;
   onSelectFile: (path: string) => void;
   onDeleteFile: (path: string) => void;
+  onCreateFile: (path: string) => void;
 }
 
-export function FileTree({ tree, closedFolders, onToggleFolder, onSelectFile, onDeleteFile }: FileTreeProps) {
+export function FileTree({ tree, closedFolders, onToggleFolder, onSelectFile, onDeleteFile, onCreateFile }: FileTreeProps) {
   if (!tree) return <div>Chargement...</div>;
 
   const renderNode = (node: FileNode) => {
@@ -24,10 +25,18 @@ export function FileTree({ tree, closedFolders, onToggleFolder, onSelectFile, on
           {node.is_dir ? (
             <button
               onClick={() => onToggleFolder(node.path)}
-              className="flex items-center p-1 mb-1 rounded hover:bg-background2 w-full"
+              className="flex items-center p-1 mb-1 rounded hover:bg-background2 w-full focus:border border-3 border-border group relative"
             >
               {isClosed ? <ChevronDown /> : <ChevronUp />}
               <span className="ml-1">{label}</span>
+              <a
+                className="absolute right-2 w-6 h-6 hidden group-hover:flex items-center justify-center
+                          group-hover:text-blue-600 group-hover:bg-background rounded-md
+                          transition-all duration-300"
+                onClick={() => onCreateFile(node.path)}
+              >
+                <Plus size={16} />
+              </a>
             </button>
           ) : (
             <button
