@@ -11,6 +11,7 @@
   --foreground2: #99a1af;
   --background2: #111820;
 
+  color: var(--foreground);
   background-color: var(--background);
 }
 

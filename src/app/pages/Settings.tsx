@@ -35,7 +35,7 @@ export default function Settings({ rootPath, setRootPath }: SettingsProps) {
                 <div className="flex items-center gap-3 mt-2">
                     <button
                         onClick={handleSelectFolder}
-                        className="px-4 py-2 bg-secondary text-white rounded transition-colors"
+                        className="px-4 py-2 bg-secondary text-white rounded"
                     >
                         Choisir un dossier
                     </button>
