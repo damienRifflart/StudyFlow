@@ -9,12 +9,11 @@ Bienvenue sur **Studyflow**, l'application de prise de notes markdown pensée sp
 - 🧮 Support LaTeX pour les formules.
 
 📂 **Organisation** :
-- 📚 Structure : Année > Cours > Notes.
+- 📚 Reprends l'arborescence de vos fichiers.
 - 🔖 Ajoutez des tags pour retrouver vos notes rapidement.
 
 🧠 **Réviser facilement** :
-- 🃏 Générateur de flashcards depuis vos notes.
-- 📈 Suivi de progression.
+- 🃏 Générateur de quiz depuis vos notes.
 
 ## ⚙️ Technologies utilisées
 
