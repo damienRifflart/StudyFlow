@@ -76,7 +76,7 @@ export default function Chart({
         datasets,
     };
 
-    function getChartOptions<T extends ChartType>(chartType: T): ChartOptions<T> {
+    function getChartOptions<T extends ChartType>(): ChartOptions<T> {
         return {
             responsive: true,
             maintainAspectRatio: false,
@@ -108,31 +108,31 @@ export default function Chart({
         case 'bar':
             return (
                 <div style={containerStyle} className="mb-5">
-                    <Bar data={chartData} options={getChartOptions('bar')} width={width} height={height} />
+                    <Bar data={chartData} options={getChartOptions<'bar'>()} width={width} height={height} />
                 </div>
             );
         case 'line':
             return (
                 <div style={containerStyle} className="mb-5">
-                    <Line data={chartData} options={getChartOptions('line')} width={width} height={height} />
+                    <Line data={chartData} options={getChartOptions<'line'>()} width={width} height={height} />
                 </div>
             );
         case 'scatter':
             return (
                 <div style={containerStyle} className="mb-5">
-                    <Scatter data={chartData} options={getChartOptions('scatter')} width={width} height={height} />
+                    <Scatter data={chartData} options={getChartOptions<'scatter'>()} width={width} height={height} />
                 </div>
             );
         case 'doughnut':
             return (
                 <div style={containerStyle} className="mb-5">
-                    <Doughnut data={chartData} options={getChartOptions('doughnut')} width={width} height={height} />
+                    <Doughnut data={chartData} options={getChartOptions<'doughnut'>()} width={width} height={height} />
                 </div>
             );
         case 'pie':
             return (
                 <div style={containerStyle} className="mb-5">
-                    <Pie data={chartData} options={getChartOptions('pie')} width={width} height={height} />
+                    <Pie data={chartData} options={getChartOptions<'pie'>()} width={width} height={height} />
                 </div>
             );
         default:

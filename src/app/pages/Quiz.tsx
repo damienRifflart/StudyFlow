@@ -6,8 +6,6 @@ import { openUrl } from '@tauri-apps/plugin-opener'
 export default function Quiz() {
     const [loading, setLoading] = useState(false);
     const [quizLink, setQuizLink] = useState<string | null>(null);
-    const [isAuthenticated, setIsAuthenticated] = useState<string | null>(null);
-    const [userId, setUserId] = useState<string | null>(null);
     const [noteContent, setNoteContent] = useState<string | null>(null);
     const [filePath, setFilePath] = useState<string | null>(null)
 
@@ -87,7 +85,7 @@ Génère un objet JSON au format suivant (aucun texte en dehors du JSON) :
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    author: isAuthenticated ? userId : "StudyFlow",
+                    author: "StudyFlow",
                     title: parsedQuiz.title,
                     created_at: new Date(),
                     content: parsedQuiz.content,
@@ -183,7 +181,7 @@ Génère un objet JSON au format suivant (aucun texte en dehors du JSON) :
                         disabled={!noteContent}
                         className={`w-full py-3 px-4 rounded-xl font-medium bg-secondary ${!noteContent ? "opacity-50 cursor-not-allowed" : ""}`}
                     >
-                        {loading ? "Création du compte..." : "Créer un compte"}
+                        Créer un compte
                     </button>
                 </div>
 
@@ -196,16 +194,6 @@ Génère un objet JSON au format suivant (aucun texte en dehors du JSON) :
                         L’approbation de votre quiz par un administrateur de Quizzlify peut prendre jusqu’à 7 jours.
                     </p>
 
-                    {quizLink && (
-                        <p className="mt-4 text-green-600 font-medium">
-                            ✅ Quiz créé !{" "}
-
-                            <button onClick={() => openUrl(quizLink)} className="hover:underline">
-                                Voir le quiz
-                            </button>
-                        </p>
-                    )}
-
                     <button
                         onClick={handleGenerateQuiz}
                         disabled={loading || !noteContent}
@@ -215,6 +203,15 @@ Génère un objet JSON au format suivant (aucun texte en dehors du JSON) :
                     </button>
                 </div>
             </div>
+
+            {quizLink && (
+                <p className="mt-8 text-xl text-center">
+                    Votre quiz a bien été créé, mais on ne peut pas encore y jouer sur Quizzlify. Il sera disponible après validation par un administrateur.
+                    Vous pouvez le retrouver avec ce lien:
+                    <br /> <button onClick={() => openUrl(quizLink)} className="text-accent hover:underline">{quizLink}</button>
+                </p>
+            )}
+
         </div>
     );
 
